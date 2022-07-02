@@ -12,16 +12,10 @@ def read_data_from_csv(path):
                 data.update({row.pop(0): row})
     return data
 
-#### Функция принимает на вход ip,креды в формате списка [login,password],и списка команд.
-#### Возвращает словарь,в котором ключом является переданная команда, а значением является либо None,если команда применена успешно, либо текст ошибки,если что-то пошло не по плану.
-def push_cmds_on_mikrotik(ip,creds,cmd):
-    result={}
+#### Функция принимает на вход ip,креды в формате списка [login,password],и комадны.
+#### Возвращает строку с ответом устройства
+def push_cmd_on_mikrotik(ip,creds,cmd):
     mikrotik=MikrotikDevice()
     mikrotik.connect(ip,creds[0],creds[1])
-    for command in cmd:
-        output=mikrotik.send_command(command)
-        if output.startswith('['+creds[0]):
-            result.update{command:None}
-        else:
-            result.update{command:output.split('\n')[0]}
-    return result
+    output=mikrotik.send_command(command)
+    return output
