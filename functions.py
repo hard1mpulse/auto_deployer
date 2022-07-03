@@ -17,5 +17,5 @@ def read_data_from_csv(path):
 def push_cmd_on_mikrotik(ip,creds,cmd):
     mikrotik=MikrotikDevice()
     mikrotik.connect(ip,creds[0],creds[1])
-    output=mikrotik.send_command(command)
+    output=mikrotik.send_command(cmd)
     return output

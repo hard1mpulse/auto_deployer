@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import datetime
+from time import strftime,gmtime
 import os
 from functions import read_data_from_csv,push_cmd_on_mikrotik
 from config import devices_path,credentials_path,log_path,commands_list_path
@@ -24,7 +24,7 @@ with open(log_path,'a') as f:
     for device in devices.keys():
         for command in commands_list:
             output=push_cmd_on_mikrotik(devices[device][2],credentials[devices[device][3]][1:3],command)
-            if output.startswith('['+creds[0]):
-                f.write('{}   autodeployer.py   {}({}) Deploying command:\"{}\" was successful!\n'.format(now.strftime("%d/%m/%Y, %H:%M:%S"),device,devices[device][2],command))
+            if output.startswith('['+credentials[devices[device][3]][1]):
+                f.write('{}   autodeployer.py   {}({}) Deploying command:\"{}\" was successful!\n'.format(strftime("%D %B %Y %H:%M:%S", gmtime()),device,devices[device][2],command))
             else:
-                f.write('{}   autodeployer.py   {}({}) Deploying command:\"{}\" was failed with error: \"{}\"!\n'.format(now.strftime("%d/%m/%Y, %H:%M:%S"),device,devices[device][2],command,output.split('\n')[0]))
+                f.write('{}   autodeployer.py   {}({}) Deploying command:\"{}\" was failed with error: \"{}\"!\n'.format(strftime("%D %B %Y %H:%M:%S", gmtime()),device,devices[device][2],command,output.split('\n')[0].rstrip()))
